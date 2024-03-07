@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to the Matrix</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
+<style>
+  .translucent-bg {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+  }
+  @keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+50% { border-color: transparent }
+}
+
+.typing {
+overflow: hidden; /* Ensures the content is not revealed until the animation */
+border-right: .15em solid orange; /* The cursor */
+white-space: nowrap; /* Keeps the content on a single line */
+margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+letter-spacing: .15em; /* Adjust as needed */
+animation: 
+    typing 4s steps(40, end),
+    blink .75s step-end infinite;
+}
+</style>
+</head>
+<body class="bg-white">
+
+<div id="particles-js" class="fixed inset-0 z-0"></div>
+
+<div class="flex items-center justify-center h-screen">
+  <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
+    <h1 class="text-4xl font-bold mb-4">matrix</h1>
+    <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
+    <label for="file-upload" class="cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+      Upload Network File
+    </label>
+    <input id="file-upload" type="file" class="sr-only">
+    <p id="uploadStatus" class="text-green-500"></p>
+  </div>
+</div>
+
+<script>
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var formData = new FormData();
+    formData.append('file', file); // 'file' is the key expected by your Flask endpoint
+
+    // Update UI to show uploading status
+    var statusElement = document.getElementById('uploadStatus');
+    statusElement.textContent = 'Uploading...';
+
+    // Perform the upload
+    fetch('/your-flask-endpoint', { // Replace '/your-flask-endpoint' with your actual Flask endpoint URL
+      method: 'POST',
+      body: formData,
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Assuming your Flask endpoint responds with JSON
+    })
+    .then(data => {
+      console.log(data); // Log the response data for debugging
+      statusElement.textContent = 'Upload Complete!';
+      setTimeout(() => { statusElement.textContent = ''; }, 5000); // Clear the status message after 5 seconds
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+      //change the color to red
+      statusElement.classList.add('text-red-500');
+      statusElement.textContent = 'Failed to upload. Please try again.';
+      setTimeout(() => {
+    statusElement.textContent = '';
+    statusElement.classList.remove('text-red-500');
+  }, 5000);
+    });
+  });
+  tsParticles.load("particles-js", {
+    particles: {
+      number: {
+        value: 80,
+        density: {
+          enable: true,
+          value_area: 800
+        }
+      },
+      color: {
+        value: "#000000"
+      },
+      shape: {
+        type: "circle",
+        stroke: {
+          width: 0,
+          color: "#000000"
+        },
+        polygon: {
+          nb_sides: 5
+        }
+      },
+      opacity: {
+        value: 0.5,
+        random: false,
+        anim: {
+          enable: true,
+          speed: 1,
+          opacity_min: 0.1,
+          sync: false
+        }
+      },
+      size: {
+        value: 3,
+        random: true,
+        anim: {
+          enable: false,
+          speed: 15,
+          size_min: 0.1,
+          sync: false
+        }
+      },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#000000",
+        opacity: 0.5,
+        width: 2
+      },
+      move: {
+        enable: true,
+        speed: 4,
+        direction: "none",
+        random: false,
+        straight: false,
+        out_mode: "out",
+        bounce: false,
+        attract: {
+          enable: false,
+          rotateX: 600,
+          rotateY: 1200
+        }
+      }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: {
+          enable: true,
+          mode: "repulse"
+        },
+        onclick: {
+          enable: true,
+          mode: "push"
+        },
+        resize: true
+      },
+      modes: {
+        grab: {
+          distance: 400,
+          line_linked: {
+            opacity: 1
+          }
+        },
+        bubble: {
+          distance: 400,
+          size: 40,
+          duration: 2,
+          opacity: 8,
+          speed: 3
+        },
+        repulse: {
+          distance: 200,
+          duration: 0.4
+        },
+        push: {
+          particles_nb: 4
+        },
+        remove: {
+          particles_nb: 2
+        }
+      }
+    },
+    retina_detect: true
+  });
+  function typeAnimation() {
+  let element = document.getElementById('animatedText');
+  element.classList.add('typing');
+}
+
+// Initial call to start the animation
+typeAnimation();
+
+
+</script>
+
+</body>
+</html>
