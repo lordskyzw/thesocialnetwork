@@ -1,0 +1,10 @@
+1. efficient marketing for new products or existing products
+    - lets say we have a new product we want to push, we could break the market by choosing nodes in the graph with higher eigenvector values(brand ambassadors)
+    - this saves on resources
+    - if our graph has mature weights, we can even find clusters for which our product can be adopted easily
+    - analysis of a market can give foresight which can be used to benchmark marketing success for evaluation purposes- lets say a graph has a high average coefficient cluster, we expect marketing to be easier in that graph
+2. political tool
+    - for picking out important people (again eigenvector is key here)
+    - scouting those with high betweeness in order to win over hard to reach populations (bridge to win over party members)
+    - can also be used to fish out 'lonely'/unconnected people in the graph to use as examples (side-eye)
+3.
