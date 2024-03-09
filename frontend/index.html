@@ -76,26 +76,42 @@ document.getElementById('file-upload').addEventListener('change', function(event
     return; // No file chosen, so do nothing
   }
 
+  var formData = new FormData();
+  formData.append('file', file);
+
   var statusElement = document.getElementById('uploadStatus');
   statusElement.textContent = 'Uploading...';
 
-  // Simulate file upload with a delay
-  setTimeout(function() {
-    // Pretend the upload was successful
-    console.log("File upload simulated:", file.name);
+  fetch('/show-analysis', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); // Assuming the server responds with JSON
+  })
+  .then(data => {
+    console.log(data); // Handle success, e.g., log the analysis results
     statusElement.textContent = 'Upload Complete!';
     setTimeout(() => { statusElement.textContent = ''; }, 5000);
 
-    // Show the button and add the glowing effect
+    // Update UI to reflect successful upload and analysis readiness
     var showAnalysisBtn = document.getElementById('showAnalysisBtn');
     showAnalysisBtn.classList.remove('hidden');
     showAnalysisBtn.classList.add('glowing-btn');
     document.querySelector('label[for="file-upload"]').classList.add('hidden');
     document.getElementById('file-upload').classList.add('hidden');
-    document.querySelector('label[for="file-upload"]').classList.add('hidden');
     document.getElementById('resetBtn').classList.remove('hidden');
-  }, 2000); // 2-second delay to simulate the upload
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+    statusElement.textContent = 'Failed to upload. Please try again.';
+    setTimeout(() => { statusElement.textContent = ''; }, 5000);
+  });
 });
+
 
 // Event listener for the Show Network Analysis button
 document.getElementById('showAnalysisBtn').addEventListener('click', function() {
