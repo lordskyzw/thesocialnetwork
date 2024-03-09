@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .translucent-bg {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<div id="particles-js" class="fixed inset-0 z-0"></div>
+
+<div class="relative z-10 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full translucent-bg">
+        <div class="flex justify-between border-b-2 border-gray-200 mb-4">
+            <button class="tab-link focus:outline-none font-semibold text-lg py-2 px-4" data-tab="tab-overview">Network Overview</button>
+            <button class="tab-link focus:outline-none text-lg py-2 px-4" data-tab="tab-advanced">Advanced</button>
+        </div>
+        <div id="tab-overview" class="tab-content active">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nodes</label>
+                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mt-4">Edges</label>
+                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mt-4">Radius</label>
+                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mt-4">Hub</label>
+                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mt-4">Critical</label>
+                    <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Network Description</h3>
+                    <p class="text-gray-600">Network description is on the same tab with network overview, the advanced tab should be empty currently.</p>
+                </div>
+            </div>
+        </div>
+        <div id="tab-advanced" class="tab-content">
+            <!-- Advanced tab content will go here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const tabs = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = document.querySelector(`#${tab.getAttribute('data-tab')}`);
+
+            tabContents.forEach(tc => {
+                tc.classList.remove('active');
+            });
+            tabs.forEach(t => {
+                t.classList.remove('font-semibold');
+            });
+
+            tab.classList.add('font-semibold');
+            target.classList.add('active');
+        });
+    });
+
+    tsParticles.load('particles-js', {
+        particles: {
+            number: {
+                value: 50,
+            },
+            color: {
+                value: "#000000"
+            },
+            shape: {
+                type: "circle",
+            },
+            opacity: {
+                value: 0.5,
+                random: false,
+                anim: {
+                    enable: false,
+                },
+            },
+            size: {
+                value: 3,
+                random: true,
+                anim: {
+                    enable: false,
+                },
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#000000",
+                opacity: 0.4,
+                width: 1,
+            },
+            move: {
+                enable: true,
+                speed: 2,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: {
+                    enable: false,
+                    rotateX: 600,
+                    rotateY: 1200,
+                },
+            },
+        },
+        retina_detect: true,
+    });
+</script>
+
+</body>
+</html>

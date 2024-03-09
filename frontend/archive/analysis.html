@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-button {
+            cursor: pointer;
+        }
+        .translucent-bg {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div id="particles-js"></div>
+
+<div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg relative max-w-2xl w-full">
+        <div class="flex justify-between border-b-2 mb-4">
+            <h2 class="text-xl font-semibold tab-button" onclick="changeTab('overview')">Network Overview</h2>
+            <h2 class="text-xl font-semibold tab-button" onclick="changeTab('advanced')">Advanced</h2>
+        </div>
+        <div class="tab-content active translucent-bg p-4" id="overview">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Nodes</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Edges</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Radius</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Hub</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Critical</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Network Description</label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"></textarea>
+            </div>
+        </div>
+        <div class="tab-content translucent-bg p-4" id="advanced">
+            <!-- Advanced tab content will go here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.json', function() {
+        console.log('callback - particles.js config loaded');
+    });
+
+    function changeTab(tabName) {
+        var i, tabcontent, tabbuttons;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tabbuttons = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tabbuttons.length; i++) {
+            tabbuttons[i].classList.remove("text-blue-500");
+        }
+        document.getElementById(tabName).classList.add("active");
+    }
+</script>
+
+</body>
+</html>
