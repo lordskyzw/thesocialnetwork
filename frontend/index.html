@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome to the Matrix</title>
+<title>matrix</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
 <style>
@@ -30,6 +30,21 @@ animation:
     typing 4s steps(40, end),
     blink .75s step-end infinite;
 }
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(21, 128, 61, 0.3), 0 0 25px rgba(21, 128, 61, 0.2), 0 0 50px rgba(21, 128, 61, 0.1), 0 0 100px rgba(21, 128, 61, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 5px rgba(21, 128, 61, 0.7), 0 0 25px rgba(21, 128, 61, 0.5), 0 0 50px rgba(21, 128, 61, 0.3), 0 0 100px rgba(21, 128, 61, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(21, 128, 61, 0.3), 0 0 25px rgba(21, 128, 61, 0.2), 0 0 50px rgba(21, 128, 61, 0.1), 0 0 100px rgba(21, 128, 61, 0.05);
+  }
+}
+
+.glowing-btn {
+  animation: glow 1.5s infinite alternate;
+}
 </style>
 </head>
 <body class="bg-white">
@@ -44,47 +59,49 @@ animation:
       Upload Network File
     </label>
     <input id="file-upload" type="file" class="sr-only">
+    <button id="resetBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hidden">
+      Reset
+    </button>    
+    <button id="showAnalysisBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hidden">
+      View Network Analysis
+    </button>
     <p id="uploadStatus" class="text-green-500"></p>
   </div>
 </div>
 
 <script>
-    document.getElementById('file-upload').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var formData = new FormData();
-    formData.append('file', file); // 'file' is the key expected by your Flask endpoint
+document.getElementById('file-upload').addEventListener('change', function(event) {
+  var file = event.target.files[0];
+  if (!file) {
+    return; // No file chosen, so do nothing
+  }
 
-    // Update UI to show uploading status
-    var statusElement = document.getElementById('uploadStatus');
-    statusElement.textContent = 'Uploading...';
+  var statusElement = document.getElementById('uploadStatus');
+  statusElement.textContent = 'Uploading...';
 
-    // Perform the upload
-    fetch('/your-flask-endpoint', { // Replace '/your-flask-endpoint' with your actual Flask endpoint URL
-      method: 'POST',
-      body: formData,
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json(); // Assuming your Flask endpoint responds with JSON
-    })
-    .then(data => {
-      console.log(data); // Log the response data for debugging
-      statusElement.textContent = 'Upload Complete!';
-      setTimeout(() => { statusElement.textContent = ''; }, 5000); // Clear the status message after 5 seconds
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-      //change the color to red
-      statusElement.classList.add('text-red-500');
-      statusElement.textContent = 'Failed to upload. Please try again.';
-      setTimeout(() => {
-    statusElement.textContent = '';
-    statusElement.classList.remove('text-red-500');
-  }, 5000);
-    });
-  });
+  // Simulate file upload with a delay
+  setTimeout(function() {
+    // Pretend the upload was successful
+    console.log("File upload simulated:", file.name);
+    statusElement.textContent = 'Upload Complete!';
+    setTimeout(() => { statusElement.textContent = ''; }, 5000);
+
+    // Show the button and add the glowing effect
+    var showAnalysisBtn = document.getElementById('showAnalysisBtn');
+    showAnalysisBtn.classList.remove('hidden');
+    showAnalysisBtn.classList.add('glowing-btn');
+    document.querySelector('label[for="file-upload"]').classList.add('hidden');
+    document.getElementById('file-upload').classList.add('hidden');
+    document.querySelector('label[for="file-upload"]').classList.add('hidden');
+    document.getElementById('resetBtn').classList.remove('hidden');
+  }, 2000); // 2-second delay to simulate the upload
+});
+
+// Event listener for the Show Network Analysis button
+document.getElementById('showAnalysisBtn').addEventListener('click', function() {
+  alert('Network analysis would be shown here in the actual application.');
+});
+
   tsParticles.load("particles-js", {
     particles: {
       number: {
@@ -122,7 +139,7 @@ animation:
         random: true,
         anim: {
           enable: false,
-          speed: 15,
+          speed: 40,
           size_min: 0.1,
           sync: false
         }
@@ -131,12 +148,12 @@ animation:
         enable: true,
         distance: 150,
         color: "#000000",
-        opacity: 0.5,
-        width: 2
+        opacity: 0.4,
+        width: 1
       },
       move: {
         enable: true,
-        speed: 4,
+        speed: 6,
         direction: "none",
         random: false,
         straight: false,
@@ -194,7 +211,10 @@ animation:
   let element = document.getElementById('animatedText');
   element.classList.add('typing');
 }
-
+document.getElementById('resetBtn').addEventListener('click', function() {
+    // Reload the current page
+    window.location.reload();
+});
 // Initial call to start the animation
 typeAnimation();
 

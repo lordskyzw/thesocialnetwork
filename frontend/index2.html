@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
+    <style>
+        .translucent-bg {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink {
+            50% { border-color: transparent }
+        }
+        .typing {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 4s steps(40, end),
+                blink .75s step-end infinite;
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(21, 128, 61, 0.3), 0 0 25px rgba(21, 128, 61, 0.2), 0 0 50px rgba(21, 128, 61, 0.1), 0 0 100px rgba(21, 128, 61, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 5px rgba(21, 128, 61, 0.7), 0 0 25px rgba(21, 128, 61, 0.5), 0 0 50px rgba(21, 128, 61, 0.3), 0 0 100px rgba(21, 128, 61, 0.15);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(21, 128, 61, 0.3), 0 0 25px rgba(21, 128, 61, 0.2), 0 0 50px rgba(21, 128, 61, 0.1), 0 0 100px rgba(21, 128, 61, 0.05);
+            }
+        }
+        .glowing-btn {
+            animation: glow 1.5s infinite alternate;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<div id="particles-js" class="fixed inset-0 z-0"></div>
+
+<div class="flex items-center justify-center h-screen">
+    <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
+        <h1 class="text-4xl font-bold mb-4">matrix</h1>
+        <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
+        <label for="file-upload" class="cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+            Upload Network File
+        </label>
+        <input id="file-upload" type="file" class="sr-only">
+        <p id="uploadStatus" class="text-green-500"></p>
+    </div>
+</div>
+
+<script>
+    tsParticles.load("particles-js", {
+        particles: {
+            number: {
+                value: 80,
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#000000"
+            },
+            shape: {
+                type: "circle",
+                stroke: {
+                    width: 0,
+                    color: "#000000"
+                },
+                polygon: {
+                    nb_sides: 5
+                }
+            },
+            opacity: {
+                value: 0.5,
+                random: false,
+                anim: {
+                    enable: false,
+                    speed: 1,
+                    opacity_min: 0.1,
+                    sync: false
+                }
+            },
+            size: {
+                value: 3,
+                random: true,
+                anim: {
+                    enable: false,
+                    speed: 40,
+                    size_min: 0.1,
+                    sync: false
+                }
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#000000",
+                opacity: 0.4,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 6,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: {
+                    enable: false,
+                    rotateX: 600,
+                    rotateY: 1200
+                }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "repulse"
+                },
+                onclick: {
+                    enable: true,
+                    mode: "push"
+                },
+                resize: true
+            },
+            modes: {
+                grab: {
+                    distance: 400,
+                    line_linked: {
+                        opacity: 1
+                    }
+                },
+                bubble: {
+                    distance: 400,
+                    size: 40,
+                    duration: 2,
+                    opacity: 8,
+                    speed: 3
+                },
+                repulse: {
+                    distance: 200,
+                    duration: 0.4
+                },
+                push: {
+                    particles_nb: 4
+                },
+                remove: {
+                    particles_nb: 2
+                }
+            }
+        },
+        retina_detect: true
+    });
+
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (!file) {
+            return; // No file chosen, so do nothing
+        }
+
+        var statusElement = document.getElementById('uploadStatus');
+        statusElement.textContent = 'Uploading...';
+
+        // Simulate file upload with a delay
+        setTimeout(function() {
+            // Pretend the upload was successful
+            console.log("File upload simulated:", file.name);
+            statusElement.textContent = 'Upload Complete!';
+            setTimeout(() => { statusElement.textContent = ''; }, 5000);
+
+            // Change particles color to green after successful upload
+            tsParticles.load("particles-js", {
+                particles: {
+                    number: {
+                        value: 100,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#000000" // Green color for particles after upload
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 1,
+                            color: "#000000"
+                        },
+                        polygon: {
+                            nb_sides: 5
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false,
+                        anim: {
+                            enable: false,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#000000",
+                        opacity: 0.5,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: false,
+                            mode: "repulse"
+                        },
+                        onclick: {
+                            enable: false,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 400,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 8,
+                            speed: 3
+                        },
+                        repulse: {
+                            distance: 200,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 4
+                        },
+                        remove: {
+                            particles_nb: 2
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }, 2000); // 2-second delay to simulate the upload
+    });
+
+    function typeAnimation() {
+        let element = document.getElementById('animatedText');
+        element.classList.add('typing');
+    }
+
+    // Initial call to start the animation
+    typeAnimation();
+</script>
+
+</body>
+</html>
