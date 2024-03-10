@@ -130,5 +130,27 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Retrieve the analysis data from local storage
+        const analysisData = JSON.parse(localStorage.getItem('analysisData'));
+
+        // Check if data exists
+        if (analysisData) {
+            // Populate the page with the analysis data
+            document.getElementById('nodeCount').textContent = analysisData.nodes;
+            document.getElementById('edgeCount').textContent = analysisData.edges;
+            // Continue for other data elements...
+
+            // Optionally, clear the data from local storage if it's no longer needed
+            localStorage.removeItem('analysisData');
+        } else {
+            // Handle the case where there's no data (e.g., user navigated directly to the analysis page)
+            console.error('No analysis data found.');
+            // Redirect back to the upload page or show an error message
+        }
+    });
+</script>
+
 </body>
 </html>

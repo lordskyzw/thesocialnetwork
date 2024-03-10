@@ -52,6 +52,11 @@ animation:
 <div id="particles-js" class="fixed inset-0 z-0"></div>
 
 <div class="flex items-center justify-center h-screen">
+
+  <div id="loadingIndicator" class="hidden">
+    Loading analysis...
+  </div>
+
   <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
     <h1 class="text-4xl font-bold mb-4">matrix</h1>
     <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
@@ -82,7 +87,7 @@ document.getElementById('file-upload').addEventListener('change', function(event
   var statusElement = document.getElementById('uploadStatus');
   statusElement.textContent = 'Uploading...';
 
-  fetch('/show-analysis', {
+  fetch('/upload', {
     method: 'POST',
     body: formData,
   })
@@ -94,6 +99,7 @@ document.getElementById('file-upload').addEventListener('change', function(event
   })
   .then(data => {
     console.log(data); // Handle success, e.g., log the analysis results
+    uploadedFilename = data.filename
     statusElement.textContent = 'Upload Complete!';
     setTimeout(() => { statusElement.textContent = ''; }, 5000);
 
@@ -115,8 +121,39 @@ document.getElementById('file-upload').addEventListener('change', function(event
 
 // Event listener for the Show Network Analysis button
 document.getElementById('showAnalysisBtn').addEventListener('click', function() {
-  alert('Network analysis would be shown here in the actual application.');
+    // Show loading indicator
+    document.getElementById('loadingIndicator').classList.remove('hidden');
+    // Use the global variable 'uploadedFilename' in the request data
+    const requestData = { filename: uploadedFilename }
+
+    fetch('/path-to-flask-endpoint', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+    // Store the analysis data in local storage
+      localStorage.setItem('analysisData', JSON.stringify(data));
+
+    // Redirect to the network analysis page
+      window.location.href = 'http://127.0.0.1:5500/frontend/networkanalysis.html';
+    })
+
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        // Hide loading indicator and show an error message or handle the error appropriately
+        document.getElementById('loadingIndicator').classList.add('hidden');
+    });
 });
+
 
   tsParticles.load("particles-js", {
     particles: {
