@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.translucent-bg {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+  
+  .typing {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+        typing 4s steps(40, end),
+        blink .75s step-end infinite;
+  }
+  
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(21, 128, 61, 0.3), 0 0 25px rgba(21, 128, 61, 0.2), 0 0 50px rgba(21, 128, 61, 0.1), 0 0 100px rgba(21, 128, 61, 0.05);
+    }
+    50% {
+      box-shadow: 0 0 5px rgba(21, 128, 61, 0.7), 0 0 25px rgba(21, 128, 61, 0.5), 0 0 50px rgba(21, 128, 61, 0.3), 0 0 100px rgba(21, 128, 61, 0.15);
+    }
+  }
+  
+  .glowing-btn {
+    animation: glow 1.5s infinite alternate;
+  }
+  
