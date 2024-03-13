@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>matrix</title>
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
+<!--<script src="https://cdn.tailwindcss.com"></script>-->
 <link rel="stylesheet" href="dist/styles.css">
 </head>
 <body class="bg-white">
@@ -20,9 +21,9 @@
   <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
     <h1 class="text-4xl font-bold mb-4">matrix</h1>
     <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
-    <label for="file-upload" class="cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+    <label for="file-upload" class="cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mt-8">
       Upload Network File
-    </label>
+    </label>    
     <input id="file-upload" type="file" class="sr-only">
     <button id="resetBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hidden">
       Reset
@@ -83,10 +84,11 @@ document.getElementById('file-upload').addEventListener('change', function(event
 document.getElementById('showAnalysisBtn').addEventListener('click', function() {
     // Show loading indicator
     document.getElementById('loadingIndicator').classList.remove('hidden');
+
     // Use the global variable 'uploadedFilename' in the request data
     const requestData = { filename: uploadedFilename }
 
-    fetch('/path-to-flask-endpoint', {
+    fetch('https://thesocialnetwork-production.up.railway.app/show-analysis', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -95,22 +97,28 @@ document.getElementById('showAnalysisBtn').addEventListener('click', function() 
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Network response was not ok, status: ${response.status}`);
         }
         return response.json();
     })
     .then(data => {
-    // Store the analysis data in local storage
-      localStorage.setItem('analysisData', JSON.stringify(data));
+        // Hide loading indicator
+        document.getElementById('loadingIndicator').classList.add('hidden');
 
-    // Redirect to the network analysis page
-      window.location.href = 'http://127.0.0.1:5500/frontend/networkanalysis.html';
+        // Check if there is an error in the data
+        if(data.error) {
+            throw new Error(data.error);
+        }
+        localStorage.setItem('analysisData', JSON.stringify(data));
+        console.log('Data set in local storage:', localStorage.getItem('analysisData')); // Check what's actually being set in local storage
+        // Redirect to the network analysis page
+        window.location.href = 'networkanalysis.html';
     })
-
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
         // Hide loading indicator and show an error message or handle the error appropriately
         document.getElementById('loadingIndicator').classList.add('hidden');
+        alert(`Error: ${error.message}`);
     });
 });
 
