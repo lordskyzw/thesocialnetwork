@@ -13,7 +13,7 @@ def get_network_description(network_facts)-> str:
     messages=[
         {
         "role": "user",
-        "content": f"given the following network facts, give an overview summary and what might be interesting: NETWORK FACTS:{network_facts}",
+        "content": f"given the following social network facts, give an overview summary and what might be interesting: SOCIAL NETWORK FACTS:{network_facts}",
         },
     ],
     )
