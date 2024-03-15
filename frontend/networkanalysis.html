@@ -133,14 +133,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Retrieve the analysis data from local storage
-        const analysisData = JSON.parse(localStorage.getItem('analysisData'));
+        const analysisDataJSON = localStorage.getItem('analysisData');
+        const analysisData = analysisDataJSON ? JSON.parse(analysisDataJSON) : null;
 
         // Check if data exists
-        if (analysisData) {
+        if (analysisData && analysisData.network_info) {
+            // Access the network_info object within the analysis data
+            const networkInfo = analysisData.network_info;
+
             // Populate the page with the analysis data
-            document.getElementById('nodeCount').textContent = analysisData.nodes;
-            document.getElementById('edgeCount').textContent = analysisData.edges;
-            // Continue for other data elements...
+            document.getElementById('nodeCount').textContent = networkInfo.nodes;
+            document.getElementById('edgeCount').textContent = networkInfo.edges;
+            document.getElementById('radiusValue').textContent = networkInfo.radius;
+            document.getElementById('hubNode').textContent = networkInfo.hub;
+            document.getElementById('criticalNode').textContent = networkInfo.critical;
 
             // Optionally, clear the data from local storage if it's no longer needed
             localStorage.removeItem('analysisData');
