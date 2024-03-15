@@ -68,7 +68,7 @@ def show_analysis():
                 'nodes': num_nodes,
                 'edges': num_edges,
                 'radius': 4,
-                'hub': hub.keys()[0],
+                'hub': hub,
                 'critical': 'C',
                 #'average_clustering': clustering,
                 #'eigen_node': eigen_node,
@@ -76,6 +76,7 @@ def show_analysis():
             try:
                 description= get_network_description(network_facts=info)
                 info['description']=description
+                info['hub']= str(hub.keys()[0])
             except Exception as e:
                 logging.error(f"ERROR IN SENDING OVER THE NETWORK FACTS TO THE AI: {e}")
 
