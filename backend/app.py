@@ -49,7 +49,7 @@ def show_analysis():
             logging.info("nodes calculated")
             num_edges = len(network.edges())
             logging.info("edges calculated")
-            hub = get_hub(network.degree())
+            hub = get_hub(network.degree()).keys()[0]
             logging.info("calculated hub")
             #clustering = nx.average_clustering(G=network)
             #critical = nx.betweenness_centrality(G=network)
@@ -76,11 +76,10 @@ def show_analysis():
             try:
                 description= get_network_description(network_facts=info)
                 info['description']=description
-                info['hub']= str(hub.keys()[0])
             except Exception as e:
                 logging.error(f"ERROR IN SENDING OVER THE NETWORK FACTS TO THE AI: {e}")
 
-            logging.info("Network analysis completed")
+            logging.info("=====================================FULL NETWORK ANALYSIS COMPLETED===============================")
         except Exception as e:
             logging.error(f"Error reading network file: {e}")
             return jsonify({'error': 'Error reading network file', 'details': str(e)}), 500
