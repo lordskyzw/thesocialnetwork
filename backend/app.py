@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 import networkx as nx
 import logging
-from utils import get_hub, get_eigen_node
+from utils import get_hub, get_eigen_node, get_network_description
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -73,6 +73,11 @@ def show_analysis():
                 #'average_clustering': clustering,
                 #'eigen_node': eigen_node,
             }
+            try:
+                description= get_network_description(network_facts=info)
+                info['description']=description
+            except Exception as e:
+                logging.error(f"ERROR IN SENDING OVER THE NETWORK FACTS TO THE AI: {e}")
 
             logging.info("Network analysis completed")
         except Exception as e:
