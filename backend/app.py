@@ -41,33 +41,34 @@ def show_analysis():
     if os.path.exists(path):
         logging.info(f"Processing network analysis for {filename}")
         try:
-            # network = nx.read_edgelist(path=path)
-            # logging.info("Network file read successfully")
+            network = nx.read_edgelist(path=path)
+            logging.info("Network file read successfully")
 
-            # # Extract basic information
-            # num_nodes = len(network.nodes())
-            # logging.info("nodes calculated")
-            # num_edges = len(network.edges())
-            # logging.info("edges calculated")
-            # hub = get_hub(network.degree())
-            # logging.info("calucalted hub")
-            # #clustering = nx.average_clustering(G=network)
-            # critical = nx.betweenness_centrality(G=network)
-            # logging.info("calculated critical")
-            # #eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
+            # Extract basic information
+            num_nodes = len(network.nodes())
+            logging.info("nodes calculated")
+            num_edges = len(network.edges())
+            logging.info("edges calculated")
+            hub = get_hub(network.degree())
+            logging.info("calucalted hub")
+            #clustering = nx.average_clustering(G=network)
+            #critical = nx.betweenness_centrality(G=network)
+            
+            #logging.info("calculated critical")
+            #eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
 
-            # try:
-            #     radius = nx.radius(network)
-            #     logging.info("Radius calculated successfully")
-            # except nx.NetworkXError as e:
-            #     radius = str(e)  # Save the error message if the graph is not connected.
-            #     logging.warning("Graph is not connected. Radius calculation failed.")
+            try:
+                radius = nx.radius(network)
+                logging.info("Radius calculated successfully")
+            except nx.NetworkXError as e:
+                radius = str(e)  # Save the error message if the graph is not connected.
+                logging.warning("Graph is not connected. Radius calculation failed.")
 
             info = {
-                'nodes': 89,
-                'edges': 100,
-                'radius': 40,
-                'hub': 'A',
+                'nodes': num_nodes,
+                'edges': num_edges,
+                'radius': radius,
+                'hub': hub,
                 'critical': 'C',
                 #'average_clustering': clustering,
                 #'eigen_node': eigen_node,
