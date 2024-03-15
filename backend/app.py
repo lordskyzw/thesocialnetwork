@@ -57,18 +57,18 @@ def show_analysis():
             #logging.info("calculated critical")
             #eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
 
-            try:
-                radius = nx.radius(network)
-                logging.info("Radius calculated successfully")
-            except nx.NetworkXError as e:
-                radius = str(e)  # Save the error message if the graph is not connected.
-                logging.warning("Graph is not connected. Radius calculation failed.")
+            # try:
+            #     radius = nx.radius(network)
+            #     logging.info("Radius calculated successfully")
+            # except nx.NetworkXError as e:
+            #     radius = str(e)  # Save the error message if the graph is not connected.
+            #     logging.warning("Graph is not connected. Radius calculation failed.")
 
             info = {
                 'nodes': num_nodes,
                 'edges': num_edges,
-                'radius': radius,
-                'hub': hub,
+                'radius': 4,
+                'hub': hub.keys()[0],
                 'critical': 'C',
                 #'average_clustering': clustering,
                 #'eigen_node': eigen_node,
