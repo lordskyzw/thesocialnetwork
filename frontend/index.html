@@ -18,8 +18,7 @@
   <div id="loadingIndicator" class="hidden absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
     <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
     <h2 class="text-center text-gray-800 text-xl font-semibold">Loading analysis...</h2>
-</div>
-
+  </div>
 
   <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
     <h1 class="text-4xl font-bold mb-4">matrix</h1>
@@ -125,111 +124,111 @@ document.getElementById('showAnalysisBtn').addEventListener('click', function() 
 });
 
 
-  tsParticles.load("particles-js", {
-    particles: {
-      number: {
-        value: 50,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: "#000000"
-      },
-      shape: {
-        type: "circle",
-        stroke: {
-          width: 0,
-          color: "#000000"
-        },
-        polygon: {
-          nb_sides: 5
-        }
-      },
-      opacity: {
-        value: 0.5,
-        random: false,
-        anim: {
-          enable: true,
-          speed: 1,
-          opacity_min: 0.1,
-          sync: false
-        }
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: {
-          enable: false,
-          speed: 40,
-          size_min: 0.1,
-          sync: false
-        }
-      },
-      line_linked: {
+tsParticles.load("particles-js", {
+  particles: {
+    number: {
+      value: 50,
+      density: {
         enable: true,
-        distance: 150,
-        color: "#000000",
-        opacity: 0.4,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-        attract: {
-          enable: false,
-          rotateX: 600,
-          rotateY: 1200
-        }
+        value_area: 800
       }
     },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: {
-          enable: true,
-          mode: "repulse"
-        },
-        onclick: {
-          enable: true,
-          mode: "push"
-        },
-        resize: true
+    color: {
+      value: "#000000"
+    },
+    shape: {
+      type: "circle",
+      stroke: {
+        width: 0,
+        color: "#000000"
       },
-      modes: {
-        grab: {
-          distance: 400,
-          line_linked: {
-            opacity: 1
-          }
-        },
-        bubble: {
-          distance: 400,
-          size: 40,
-          duration: 2,
-          opacity: 8,
-          speed: 3
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4
-        },
-        push: {
-          particles_nb: 4
-        },
-        remove: {
-          particles_nb: 2
-        }
+      polygon: {
+        nb_sides: 5
       }
     },
-    retina_detect: true
-  });
+    opacity: {
+      value: 0.5,
+      random: false,
+      anim: {
+        enable: true,
+        speed: 1,
+        opacity_min: 0.1,
+        sync: false
+      }
+    },
+    size: {
+      value: 3,
+      random: true,
+      anim: {
+        enable: false,
+        speed: 40,
+        size_min: 0.1,
+        sync: false
+      }
+    },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: "#000000",
+      opacity: 0.4,
+      width: 1
+    },
+    move: {
+      enable: true,
+      speed: 2,
+      direction: "none",
+      random: false,
+      straight: false,
+      out_mode: "out",
+      bounce: false,
+      attract: {
+        enable: false,
+        rotateX: 600,
+        rotateY: 1200
+      }
+    }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: {
+      onhover: {
+        enable: true,
+        mode: "repulse"
+      },
+      onclick: {
+        enable: true,
+        mode: "push"
+      },
+      resize: true
+    },
+    modes: {
+      grab: {
+        distance: 400,
+        line_linked: {
+          opacity: 1
+        }
+      },
+      bubble: {
+        distance: 400,
+        size: 40,
+        duration: 2,
+        opacity: 8,
+        speed: 3
+      },
+      repulse: {
+        distance: 200,
+        duration: 0.4
+      },
+      push: {
+        particles_nb: 4
+      },
+      remove: {
+        particles_nb: 2
+      }
+    }
+  },
+  retina_detect: true
+});
   function typeAnimation() {
   let element = document.getElementById('animatedText');
   element.classList.add('typing');
@@ -239,6 +238,7 @@ document.getElementById('resetBtn').addEventListener('click', function() {
     window.location.reload();
 });
 // Initial call to start the animation
+// add a timeout call to have this function repeated
 typeAnimation();
 
 

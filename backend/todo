@@ -1,0 +1,2 @@
+implement file based caching to reduce response time
+perhaps redis?

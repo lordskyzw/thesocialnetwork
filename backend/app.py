@@ -33,7 +33,8 @@ def handle_file_upload():
  
 @app.route("/show-analysis", methods=["POST"])
 def show_analysis():
-    """Expects a file name in the POST request and returns a network analysis of the file"""
+    """Expects a file name in the POST request and returns a network analysis of the file
+        after processing a network file it caches it so that next time it first checks the cache"""
     data = request.get_json()
     filename = data['filename']
     path = f'{UPLOAD_FOLDER}/{filename}'
@@ -49,7 +50,7 @@ def show_analysis():
             logging.info("nodes calculated")
             num_edges = len(network.edges())
             logging.info("edges calculated")
-            hub = get_hub(network.degree()).keys()[0]
+            hub, hub_connections = get_hub(network.degree)
             logging.info("calculated hub")
             #clustering = nx.average_clustering(G=network)
             #critical = nx.betweenness_centrality(G=network)
@@ -69,7 +70,8 @@ def show_analysis():
                 'edges': num_edges,
                 'radius': 4,
                 'hub': hub,
-                'critical': 'C',
+                'hub_connections': hub_connections,
+                'criticalNode': 'C',
                 #'average_clustering': clustering,
                 #'eigen_node': eigen_node,
             }

@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import networkx as nx
 
 client = OpenAI(
 base_url="https://openrouter.ai/api/v1",
@@ -19,16 +20,9 @@ def get_network_description(network_facts)-> str:
     )
     return completion.choices[0].message.content
 
-def get_hub(node_dict):
-    my_dict = dict(node_dict)
-
-    # Find the key with the highest value
-    key_with_highest_value = max(my_dict, key=my_dict.get)
-
-    # Create a new dictionary with only the highest value
-    highest_value_dict = {key_with_highest_value: my_dict[key_with_highest_value]}
-
-    return(highest_value_dict)
+def get_hub(network: nx.Graph):
+    most_connected_node = max(network.degree, key=lambda pair: pair[1])
+    return most_connected_node[0], most_connected_node[1]
 
 
 def get_eigen_node(node_dict):
