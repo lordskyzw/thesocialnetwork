@@ -1,6 +1,7 @@
 from openai import OpenAI
 import os
 import networkx as nx
+import logging
 
 client = OpenAI(
 base_url="https://openrouter.ai/api/v1",
@@ -31,3 +32,14 @@ def get_eigen_node(node_dict):
     highest_value_dict = {key_with_highest_value: my_dict[key_with_highest_value]}
 
     return(highest_value_dict)
+
+def distance_calculator(graph_path, source_node, destination_node):
+    '''if the nodes are invalid raise an error'''
+    try:
+        network = nx.read_edgelist(path=graph_path)
+        distance = nx.shortest_path_length(graph=network, source=source_node, target=destination_node)
+    except Exception as e:
+        logging.error(f"utils.py distance_calculator encountered an erro {e}")
+        return e
+    return int(distance)
+    

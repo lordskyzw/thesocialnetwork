@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 import networkx as nx
 import logging
-from utils import get_hub, get_eigen_node, get_network_description
+from utils import get_hub, get_eigen_node, get_network_description, distance_calculator
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -90,6 +90,20 @@ def show_analysis():
     else:
         logging.error(f"File {filename} does not exist")
         return jsonify({'error': 'File does not exist'}), 404
+
+@app.route("/get-distance", methods=["POST"])
+def get_distance():
+    '''lets talk about what we actually want on our advanced analysis tab
+    1.) distance calculator ~ this could be form which sends over data to a dedicated endpoint which calculates distances
+    2.) complete info about a node ~ this could be a form which sends over data to a dedicated endpoint which returns full info about the node
+    3.)'''
+    '''ok lets work on the current requirements'''
+    data = request.get_json()
+    source_node = data['sourceNode']
+    destination_node = data['destinationNode']
+    network_file_path = data['networkFilePath']
+    distance = distance_calculator(graph_path=network_file_path, source_node=source_node, destination_node=destination_node)
+    return jsonify({'distance': distance}), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)
