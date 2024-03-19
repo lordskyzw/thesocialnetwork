@@ -50,7 +50,7 @@ def show_analysis():
             logging.info("nodes calculated")
             num_edges = len(network.edges())
             logging.info("edges calculated")
-            hub, hub_connections = get_hub(network.degree)
+            hub, hub_connections = get_hub(network)
             logging.info("calculated hub")
             #clustering = nx.average_clustering(G=network)
             #critical = nx.betweenness_centrality(G=network)
