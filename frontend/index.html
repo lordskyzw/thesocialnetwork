@@ -11,238 +11,242 @@
 
 <body class="bg-white">
 
-<div id="particles-js" class="fixed inset-0 z-0"></div>
+  <div id="particles-js" class="fixed inset-0 z-0"></div>
 
-<div class="flex items-center justify-center h-screen">
-
-  <div id="loadingIndicator" class="hidden absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
-    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-    <h2 class="text-center text-gray-800 text-xl font-semibold">Loading analysis...</h2>
+  <div class="content">
+    <div class="flex items-center justify-center h-screen">
+      <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
+        <h1 class="text-4xl font-bold mb-4">matrix</h1>
+        <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
+        <label for="file-upload" class="curasor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mt-8">
+          Upload Network File
+        </label>    
+        <input id="file-upload" type="file" class="sr-only">
+        <button id="resetBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hidden">
+          Reset
+        </button>    
+        <button id="showAnalysisBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hidden">
+          View Network Analysis
+        </button>
+        <p id="uploadStatus" class="text-green-500"></p>
+      </div>
+    </div>
   </div>
 
-  <div class="p-10 rounded-lg shadow-lg translucent-bg z-10">
-    <h1 class="text-4xl font-bold mb-4">matrix</h1>
-    <h2 class="text-2xl font-italic mb-4" id="animatedText">a graph based social network analysis tool</h2>
-    <label for="file-upload" class="cursor-pointer py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mt-8">
-      Upload Network File
-    </label>    
-    <input id="file-upload" type="file" class="sr-only">
-    <button id="resetBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hidden">
-      Reset
-    </button>    
-    <button id="showAnalysisBtn" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hidden">
-      View Network Analysis
-    </button>
-    <p id="uploadStatus" class="text-green-500"></p>
+  <div id="loadingIndicator" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24"></div>
   </div>
-</div>
 
-<script>
-document.getElementById('file-upload').addEventListener('change', function(event) {
-  var file = event.target.files[0];
-  if (!file) {
-    return; // No file chosen, so do nothing
-  }
 
-  var formData = new FormData();
-  formData.append('file', file);
-
-  var statusElement = document.getElementById('uploadStatus');
-  statusElement.textContent = 'Uploading...';
-
-  fetch('https://thesocialnetwork-production.up.railway.app/upload', {
-    method: 'POST',
-    body: formData,
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  <script>
+  document.getElementById('file-upload').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    if (!file) {
+      return; // No file chosen, so do nothing
     }
-    return response.json(); // Assuming the server responds with JSON
-  })
-  .then(data => {
-    console.log(data); // Handle success, e.g., log the analysis results
-    uploadedFilename = data.filename
-    statusElement.textContent = 'Upload Complete!';
-    setTimeout(() => { statusElement.textContent = ''; }, 5000);
 
-    // Update UI to reflect successful upload and analysis readiness
-    var showAnalysisBtn = document.getElementById('showAnalysisBtn');
-    showAnalysisBtn.classList.remove('hidden');
-    showAnalysisBtn.classList.add('glowing-btn');
-    document.querySelector('label[for="file-upload"]').classList.add('hidden');
-    document.getElementById('file-upload').classList.add('hidden');
-    document.getElementById('resetBtn').classList.remove('hidden');
-  })
-  .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
-    statusElement.textContent = 'Failed to upload. Please try again.';
-    setTimeout(() => { statusElement.textContent = ''; }, 5000);
-  });
-});
+    var formData = new FormData();
+    formData.append('file', file);
 
+    var statusElement = document.getElementById('uploadStatus');
+    statusElement.textContent = 'Uploading...';
 
-// Event listener for the Show Network Analysis button
-document.getElementById('showAnalysisBtn').addEventListener('click', function() {
-    document.getElementById('loadingIndicator').classList.remove('hidden');
-
-    // Use the global variable 'uploadedFilename' in the request data
-    const requestData = { filename: uploadedFilename }
-
-    fetch('https://thesocialnetwork-production.up.railway.app/show-analysis', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
+    fetch('https://thesocialnetwork-production.up.railway.app/upload', {
+      method: 'POST',
+      body: formData,
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`Network response was not ok, status: ${response.status}`);
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Assuming the server responds with JSON
     })
     .then(data => {
-        // Hide loading indicator
-        document.getElementById('loadingIndicator').classList.add('hidden');
+      console.log(data); // Handle success, e.g., log the analysis results
+      uploadedFilename = data.filename
+      statusElement.textContent = 'Upload Complete!';
+      setTimeout(() => { statusElement.textContent = ''; }, 5000);
 
-        // Check if there is an error in the data
-        if(data.error) {
-            throw new Error(data.error);
-        }
-        localStorage.setItem('analysisData', JSON.stringify(data));
-        console.log('Data set in local storage:', localStorage.getItem('analysisData')); // Check what's actually being set in local storage
-        // Redirect to the network analysis page
-        window.location.href = 'networkanalysis.html';
+      // Update UI to reflect successful upload and analysis readiness
+      var showAnalysisBtn = document.getElementById('showAnalysisBtn');
+      showAnalysisBtn.classList.remove('hidden');
+      showAnalysisBtn.classList.add('glowing-btn');
+      document.querySelector('label[for="file-upload"]').classList.add('hidden');
+      document.getElementById('file-upload').classList.add('hidden');
+      document.getElementById('resetBtn').classList.remove('hidden');
     })
     .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        // Hide loading indicator and show an error message or handle the error appropriately
-        document.getElementById('loadingIndicator').classList.add('hidden');
-        alert(`Error: ${error.message}`);
+      console.error('There was a problem with the fetch operation:', error);
+      statusElement.textContent = 'Failed to upload. Please try again.';
+      setTimeout(() => { statusElement.textContent = ''; }, 5000);
     });
-});
+  });
 
 
-tsParticles.load("particles-js", {
-  particles: {
-    number: {
-      value: 50,
-      density: {
-        enable: true,
-        value_area: 800
-      }
-    },
-    color: {
-      value: "#000000"
-    },
-    shape: {
-      type: "circle",
-      stroke: {
-        width: 0,
-        color: "#000000"
-      },
-      polygon: {
-        nb_sides: 5
-      }
-    },
-    opacity: {
-      value: 0.5,
-      random: false,
-      anim: {
-        enable: true,
-        speed: 1,
-        opacity_min: 0.1,
-        sync: false
-      }
-    },
-    size: {
-      value: 3,
-      random: true,
-      anim: {
-        enable: false,
-        speed: 40,
-        size_min: 0.1,
-        sync: false
-      }
-    },
-    line_linked: {
-      enable: true,
-      distance: 150,
-      color: "#000000",
-      opacity: 0.4,
-      width: 1
-    },
-    move: {
-      enable: true,
-      speed: 2,
-      direction: "none",
-      random: false,
-      straight: false,
-      out_mode: "out",
-      bounce: false,
-      attract: {
-        enable: false,
-        rotateX: 600,
-        rotateY: 1200
-      }
-    }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: {
-        enable: true,
-        mode: "repulse"
-      },
-      onclick: {
-        enable: true,
-        mode: "push"
-      },
-      resize: true
-    },
-    modes: {
-      grab: {
-        distance: 400,
-        line_linked: {
-          opacity: 1
+  // Event listener for the Show Network Analysis button
+  document.getElementById('showAnalysisBtn').addEventListener('click', function() {
+      document.getElementById('loadingIndicator').classList.remove('hidden');
+      document.querySelector('.content').classList.add('blur-sm');
+
+      // Use the global variable 'uploadedFilename' in the request data
+      const requestData = { filename: uploadedFilename }
+
+      fetch('https://thesocialnetwork-production.up.railway.app/show-analysis', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Network response was not ok, status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Hide loading indicator
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          document.querySelector('.content').classList.remove('blur-sm');
+
+          // Check if there is an error in the data
+          if(data.error) {
+              throw new Error(data.error);
+          }
+          localStorage.setItem('analysisData', JSON.stringify(data));
+          console.log('Data set in local storage:', localStorage.getItem('analysisData')); // Check what's actually being set in local storage
+          // Redirect to the network analysis page
+          window.location.href = 'networkanalysis.html';
+      })
+      .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+          // Hide loading indicator and show an error message or handle the error appropriately
+          document.getElementById('loadingIndicator').classList.add('hidden');
+          document.querySelector('.content').classList.remove('blur-sm');
+          alert(`Error: ${error.message}`);
+      });
+  });
+
+
+  tsParticles.load("particles-js", {
+    particles: {
+      number: {
+        value: 50,
+        density: {
+          enable: true,
+          value_area: 800
         }
       },
-      bubble: {
-        distance: 400,
-        size: 40,
-        duration: 2,
-        opacity: 8,
-        speed: 3
+      color: {
+        value: "#000000"
       },
-      repulse: {
-        distance: 200,
-        duration: 0.4
+      shape: {
+        type: "circle",
+        stroke: {
+          width: 0,
+          color: "#000000"
+        },
+        polygon: {
+          nb_sides: 5
+        }
       },
-      push: {
-        particles_nb: 4
+      opacity: {
+        value: 0.5,
+        random: false,
+        anim: {
+          enable: true,
+          speed: 1,
+          opacity_min: 0.1,
+          sync: false
+        }
       },
-      remove: {
-        particles_nb: 2
+      size: {
+        value: 3,
+        random: true,
+        anim: {
+          enable: false,
+          speed: 40,
+          size_min: 0.1,
+          sync: false
+        }
+      },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#000000",
+        opacity: 0.4,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 2,
+        direction: "none",
+        random: false,
+        straight: false,
+        out_mode: "out",
+        bounce: false,
+        attract: {
+          enable: false,
+          rotateX: 600,
+          rotateY: 1200
+        }
       }
-    }
-  },
-  retina_detect: true
-});
-  function typeAnimation() {
-  let element = document.getElementById('animatedText');
-  element.classList.add('typing');
-}
-document.getElementById('resetBtn').addEventListener('click', function() {
-    // Reload the current page
-    window.location.reload();
-});
-// Initial call to start the animation
-// add a timeout call to have this function repeated
-typeAnimation();
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: {
+          enable: true,
+          mode: "repulse"
+        },
+        onclick: {
+          enable: true,
+          mode: "push"
+        },
+        resize: true
+      },
+      modes: {
+        grab: {
+          distance: 400,
+          line_linked: {
+            opacity: 1
+          }
+        },
+        bubble: {
+          distance: 400,
+          size: 40,
+          duration: 2,
+          opacity: 8,
+          speed: 3
+        },
+        repulse: {
+          distance: 200,
+          duration: 0.4
+        },
+        push: {
+          particles_nb: 4
+        },
+        remove: {
+          particles_nb: 2
+        }
+      }
+    },
+    retina_detect: true
+  });
+    function typeAnimation() {
+    let element = document.getElementById('animatedText');
+    element.classList.add('typing');
+  }
+  document.getElementById('resetBtn').addEventListener('click', function() {
+      // Reload the current page
+      window.location.reload();
+  });
+  // Initial call to start the animation
+  // add a timeout call to have this function repeated
+  typeAnimation();
 
 
-</script>
+  </script>
 
 </body>
 </html>
