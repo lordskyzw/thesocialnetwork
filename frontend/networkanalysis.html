@@ -147,15 +147,15 @@
             document.getElementById('eigenNodeCentrality').textContent = networkInfo.eigen_node_centrality;
             document.getElementById('averageClustering').textContent = networkInfo.average_clustering;
             new Typed('#typedDescription', {
-            strings: [networkInfo.description], // Use the network description from your analysis data
-            typeSpeed: 10, // Customize typing speed as needed
-            backSpeed: 10, // Customize backspacing speed as needed
-            loop: false, // Set to true if you want the typing effect to loop
-            showCursor: true, // Set to false if you don't want to show the cursor
-            cursorChar: '|', // Customize the cursor character as needed
-            contentType: 'text', // Use 'html' if your description contains HTML tags
+            strings: [networkInfo.description], // Use the network description from analysis data
+            typeSpeed: 10, // Customize typing speed
+            backSpeed: 10, // Customize backspacing speed 
+            loop: false,
+            showCursor: true,
+            cursorChar: '|',
+            contentType: 'text', // Use 'html' if description contains HTML tags
         });
-            localStorage.removeItem('analysisData');
+            //localStorage.removeItem('analysisData');
         } else {
             console.error('No analysis data found.');
         }
