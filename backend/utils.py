@@ -11,7 +11,7 @@ api_key=os.environ.get("OPENROUTER_API_KEY")
 def get_network_description(network_facts)-> str:
     '''this function sends over the network facts to an llm which then returns a short summary of the network'''
     completion = client.chat.completions.create(
-    model="mistralai/mistral-7b-instruct:free",
+    model="openchat/openchat-7b:free",
     messages=[
         {
         "role": "user",
