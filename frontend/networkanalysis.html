@@ -37,9 +37,10 @@
                 <div>
                     <p class="text-sm font-medium text-gray-700">Nodes: <span id="nodeCount"></span></p>
                     <p class="text-sm font-medium text-gray-700 mt-4">Edges: <span id="edgeCount"></span></p>
-                    <p class="text-sm font-medium text-gray-700 mt-4">Radius: <span id="radiusValue"></span></p>
                     <p class="text-sm font-medium text-gray-700 mt-4">Hub: <span id="hubNode"></span></p>
-                    <p class="text-sm font-medium text-gray-700 mt-4">Critical: <span id="criticalNode"></span></p>
+                    <p class="text-sm font-medium text-gray-700 mt-4">Eigen Node: <span id="eigenNode"></span></p>
+                    <p class="text-sm font-medium text-gray-700 mt-4">Eigen Node Connections: <span id="eigenNodeConnections"></span></p>
+                    <p class="text-sm font-medium text-gray-700 mt-4">Average Clustering: <span id="averageClustering"></span></p>
                 </div>
                 
                 <div>
@@ -144,9 +145,10 @@
             // Populate the page with the analysis data
             document.getElementById('nodeCount').textContent = networkInfo.nodes;
             document.getElementById('edgeCount').textContent = networkInfo.edges;
-            document.getElementById('radiusValue').textContent = networkInfo.radius;
             document.getElementById('hubNode').textContent = networkInfo.hub;
-            document.getElementById('criticalNode').textContent = networkInfo.criticalNode;
+            document.getElementById('eigenNode').textContent = networkInfo.eigen_node;
+            document.getElementById('eigenNodeConnections').textContent = networkInfo.eigen_node_connections;
+            document.getElementById('averageClustering').textContent = networkInfo.average_clustering;
             document.getElementById('networkDescription').textContent = networkInfo.description;
 
             // Optionally, clear the data from local storage if it's no longer needed

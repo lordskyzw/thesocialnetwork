@@ -52,28 +52,22 @@ def show_analysis():
             logging.info("edges calculated")
             hub, hub_connections = get_hub(network)
             logging.info("calculated hub")
-            #clustering = nx.average_clustering(G=network)
-            #critical = nx.betweenness_centrality(G=network)
-            
-            #logging.info("calculated critical")
-            #eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
+            clustering = nx.average_clustering(G=network)
+            logging.info("calculated clustering")
+            eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
+            logging.info("calculated eigen node")
+            eigen_node, eigen_connections = next(iter(eigen_node.items()))
 
-            # try:
-            #     radius = nx.radius(network)
-            #     logging.info("Radius calculated successfully")
-            # except nx.NetworkXError as e:
-            #     radius = str(e)  # Save the error message if the graph is not connected.
-            #     logging.warning("Graph is not connected. Radius calculation failed.")
+    
 
             info = {
                 'nodes': num_nodes,
                 'edges': num_edges,
-                'radius': 4,
                 'hub': hub,
                 'hub_connections': hub_connections,
-                'criticalNode': 'C',
-                #'average_clustering': clustering,
-                #'eigen_node': eigen_node,
+                'average_clustering': clustering,
+                'eigen_node': eigen_node,
+                'eigen_node_connections': eigen_connections
             }
             try:
                 description= get_network_description(network_facts=info)
@@ -94,9 +88,12 @@ def show_analysis():
 @app.route("/get-distance", methods=["POST"])
 def get_distance():
     '''lets talk about what we actually want on our advanced analysis tab
-    1.) distance calculator ~ this could be form which sends over data to a dedicated endpoint which calculates distances
-    2.) complete info about a node ~ this could be a form which sends over data to a dedicated endpoint which returns full info about the node
-    3.)'''
+    1.) distance calculator ~ this could be a form which sends over data to a dedicated endpoint (this endpoint) which calculates distances
+    the form shall input source node, destination node and the network file path along with the method to be used from options provided
+    WHAT THE ENDPOINT RETURNS:
+        1.) short info about the nodes
+        2.) distance, 
+        3.) it should return info about the method used'''
     '''ok lets work on the current requirements'''
     data = request.get_json()
     source_node = data['sourceNode']
