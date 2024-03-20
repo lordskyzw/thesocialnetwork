@@ -52,7 +52,32 @@
             </div>
         </div>
         <div id="tab-advanced" class="tab-content">
-            <!-- Advanced tab content will go here -->
+            <h3 class="text-lg font-semibold mb-4">Distance Calculator</h3>
+            <form id="distanceCalculatorForm" class="space-y-4">
+                <div>
+                    <label for="sourceNode" class="block text-sm font-medium text-gray-700">Source Node</label>
+                    <input type="text" id="sourceNode" name="source_node" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter source node">
+                </div>
+                <div>
+                    <label for="destinationNode" class="block text-sm font-medium text-gray-700">Destination Node</label>
+                    <input type="text" id="destinationNode" name="destination_node" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter destination node">
+                </div>
+                <div>
+                    <label for="calculationMethod" class="block text-sm font-medium text-gray-700">Calculation Method</label>
+                    <select id="calculationMethod" name="method" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">Select a method</option>
+                        <option value="method1">Method 1</option>
+                        <option value="method2">Method 2</option>
+                        <option value="method3">Method 3</option>
+                        <!-- Add more methods as needed -->
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Calculate
+                    </button>
+                </div>
+            </form>
         </div>
         <div class="flex justify-center mt-8">
             <button onclick="window.location.href='http://127.0.0.1:5500/frontend/index.html'" class="bg-transparent hover:bg-gray-800 text-gray-800 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded">
