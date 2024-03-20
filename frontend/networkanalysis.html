@@ -133,16 +133,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Retrieve the analysis data from local storage
         const analysisDataJSON = localStorage.getItem('analysisData');
         const analysisData = analysisDataJSON ? JSON.parse(analysisDataJSON) : null;
 
-        // Check if data exists
         if (analysisData && analysisData.network_info) {
-            // Access the network_info object within the analysis data
             const networkInfo = analysisData.network_info;
-
-            // Populate the page with the analysis data
             document.getElementById('nodeCount').textContent = networkInfo.nodes;
             document.getElementById('edgeCount').textContent = networkInfo.edges;
             document.getElementById('hubNode').textContent = networkInfo.hub;
@@ -150,13 +145,9 @@
             document.getElementById('eigenNodeConnections').textContent = networkInfo.eigen_node_connections;
             document.getElementById('averageClustering').textContent = networkInfo.average_clustering;
             document.getElementById('networkDescription').textContent = networkInfo.description;
-
-            // Optionally, clear the data from local storage if it's no longer needed
             localStorage.removeItem('analysisData');
         } else {
-            // Handle the case where there's no data (e.g., user navigated directly to the analysis page)
             console.error('No analysis data found.');
-            // Redirect back to the upload page or show an error message
         }
     });
 </script>
