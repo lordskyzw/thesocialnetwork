@@ -6,7 +6,7 @@
 <title>matrix</title>
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
 <script src="https://cdn.tailwindcss.com"></script>
-<!--<link rel="stylesheet" href="dist/styles.css">-->
+<link rel="stylesheet" href="dist/styles.css">
 </head>
 
 <body class="bg-white">
@@ -233,17 +233,36 @@
     },
     retina_detect: true
   });
-    function typeAnimation() {
-    let element = document.getElementById('animatedText');
-    element.classList.add('typing');
-  }
+  
+  function typeAnimation() {
+  let element = document.getElementById('animatedText');
+  // Function to reset the typing effect
+  function resetTyping() {
+        // Remove the typing class to reset the animation
+        element.classList.remove('typing');
+
+        // Trigger reflow
+        void element.offsetWidth;
+
+        // Re-add the typing class to restart the animation
+        element.classList.add('typing');
+    }
+
+    resetTyping();
+
+    setInterval(resetTyping, 6000);
+  };
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    typeAnimation();
+  });
   document.getElementById('resetBtn').addEventListener('click', function() {
       // Reload the current page
       window.location.reload();
   });
-  // Initial call to start the animation
-  // add a timeout call to have this function repeated
-  typeAnimation();
+  
+
 
 
   </script>
