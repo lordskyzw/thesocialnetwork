@@ -6,6 +6,7 @@
     <title>Network Overview</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.39.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -45,8 +46,9 @@
                 
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Network Description</h3>
-                    <p id="networkDescription" class="text-gray-600 mt-4"></p>
+                    <p class="text-gray-600 mt-4"><span id="typedDescription"></span></p>
                 </div>
+                
             </div>
         </div>
         <div id="tab-advanced" class="tab-content">
@@ -144,7 +146,15 @@
             document.getElementById('eigenNode').textContent = networkInfo.eigen_node;
             document.getElementById('eigenNodeCentrality').textContent = networkInfo.eigen_node_centrality;
             document.getElementById('averageClustering').textContent = networkInfo.average_clustering;
-            document.getElementById('networkDescription').textContent = networkInfo.description;
+            new Typed('#typedDescription', {
+            strings: [networkInfo.description], // Use the network description from your analysis data
+            typeSpeed: 10, // Customize typing speed as needed
+            backSpeed: 10, // Customize backspacing speed as needed
+            loop: false, // Set to true if you want the typing effect to loop
+            showCursor: true, // Set to false if you don't want to show the cursor
+            cursorChar: '|', // Customize the cursor character as needed
+            contentType: 'text', // Use 'html' if your description contains HTML tags
+        });
             localStorage.removeItem('analysisData');
         } else {
             console.error('No analysis data found.');
