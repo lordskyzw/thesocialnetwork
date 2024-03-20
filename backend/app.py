@@ -56,7 +56,7 @@ def show_analysis():
             logging.info("calculated clustering")
             eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
             logging.info("calculated eigen node")
-            eigen_node, eigen_connections = next(iter(eigen_node.items()))
+            eigen_node, eigen_node_centrality = next(iter(eigen_node.items()))
 
     
 
@@ -67,7 +67,7 @@ def show_analysis():
                 'hub_connections': hub_connections,
                 'average_clustering': clustering,
                 'eigen_node': eigen_node,
-                'eigen_node_connections': eigen_connections
+                'eigen_node_centraility': eigen_node_centrality
             }
             try:
                 description= get_network_description(network_facts=info)
