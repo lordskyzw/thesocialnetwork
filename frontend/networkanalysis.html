@@ -40,7 +40,6 @@
                     <p class="text-sm font-medium text-gray-700 mt-4">Edges: <span id="edgeCount"></span></p>
                     <p class="text-sm font-medium text-gray-700 mt-4">Hub: <span id="hubNode"></span></p>
                     <p class="text-sm font-medium text-gray-700 mt-4">Eigen Node: <span id="eigenNode"></span></p>
-                    <p class="text-sm font-medium text-gray-700 mt-4">Eigen Node Centrality: <span id="eigenNodeCentrality"></span></p>
                     <p class="text-sm font-medium text-gray-700 mt-4">Average Clustering: <span id="averageClustering"></span></p>
                 </div>
                 
@@ -169,7 +168,6 @@
             document.getElementById('edgeCount').textContent = networkInfo.edges;
             document.getElementById('hubNode').textContent = networkInfo.hub;
             document.getElementById('eigenNode').textContent = networkInfo.eigen_node;
-            document.getElementById('eigenNodeCentrality').textContent = networkInfo.eigen_node_centrality;
             document.getElementById('averageClustering').textContent = networkInfo.average_clustering;
             new Typed('#typedDescription', {
             strings: [networkInfo.description], // Use the network description from analysis data
