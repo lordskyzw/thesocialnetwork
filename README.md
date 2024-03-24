@@ -4,4 +4,16 @@
 - to be fair its not even a tightly held together app, they are 2 webpages connecting via hrefs and they might as well be on different servers
 - the tailwind and particles being used are fetched from cdns, meaning the UX is as nice as your internet speed 
 - on campus, for demonstration, if not connected to Liquid Eduzone, use mobile data. 
-- use the university network as the last option (CUT WIFI) 
+- use the university network as the last option (CUT WIFI)
+
+  ## HOW TO RUN:
+  1. ```git clone https://github.com/lordskyzw/thesocialnetwork```
+  2.  ```cd thesocialnetwork```
+  3.  ``` code . ```
+  4.  If you have live server extension installed in your vscode then "Go Live" on index.html
+  5.  to get a showcase of example usecase, load up the network file in the repo
+
+### PS:
+  - the backend is already hosted on a server which the frontend links to so there is no need to set it up
+  - the front end mostly uses cdns as well so theres no set up needed, you just need to open index.html in your browser
+     
