@@ -11,7 +11,8 @@
   2.  ```cd thesocialnetwork```
   3.  ``` code . ```
   4.  If you have live server extension installed in your vscode then "Go Live" on index.html
- 
+
+### PS:
   - the backend is already hosted on a server which the frontend links to so there is no need to set it up
   - the front end mostly uses cdns as well so theres no set up needed, you just need to open index.html in your browser
      
