@@ -68,12 +68,12 @@ def show_analysis():
                 'hub_connections': hub_connections,
                 'average_clustering': clustering,
                 'eigen_node': eigen_node,
-                'filename': filename,
-                'network_image': network_base_64_image
+                'filename': filename
             }
             try:
                 description= get_network_description(network_facts=info)
                 info['description']=description
+                info['network_image']=network_base_64_image
             except Exception as e:
                 logging.error(f"ERROR IN SENDING OVER THE NETWORK FACTS TO THE AI: {e}")
 
