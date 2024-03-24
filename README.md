@@ -11,7 +11,7 @@
   2.  ```cd thesocialnetwork```
   3.  ``` code . ```
   4.  If you have live server extension installed in your vscode then "Go Live" on index.html
-  5.  to get a showcase of example usecase, load up the network file in the repo
+  5.  to get a showcase of example usecase, load up the network file located at "backend/facebook_combined.txt"
 
 ### PS:
   - the backend is already hosted on a server which the frontend links to so there is no need to set it up
