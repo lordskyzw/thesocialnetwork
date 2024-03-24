@@ -37,7 +37,7 @@ def distance_calculator(graph_path, source_node, destination_node):
     '''if the nodes are invalid raise an error'''
     try:
         network = nx.read_edgelist(path=graph_path)
-        distance = nx.shortest_path_length(graph=network, source=source_node, target=destination_node)
+        distance = nx.shortest_path_length(G=network, source=source_node, target=destination_node)
     except Exception as e:
         logging.error(f"utils.py distance_calculator encountered an erro {e}")
         return e

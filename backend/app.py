@@ -67,6 +67,7 @@ def show_analysis():
                 'hub_connections': hub_connections,
                 'average_clustering': clustering,
                 'eigen_node': eigen_node,
+                'filename': filename,
             }
             try:
                 description= get_network_description(network_facts=info)
@@ -97,9 +98,17 @@ def get_distance():
     data = request.get_json()
     source_node = data['sourceNode']
     destination_node = data['destinationNode']
-    network_file_path = data['networkFilePath']
-    distance = distance_calculator(graph_path=network_file_path, source_node=source_node, destination_node=destination_node)
-    return jsonify({'distance': distance}), 200
+    network_file_name = data['filename']
+    path = f'{UPLOAD_FOLDER}/{network_file_name}'
+    logging
+    if os.path.exists(path):
+        logging.info(f"Calculating distance between {source_node} and {destination_node} in {network_file_name}")
+        distance = distance_calculator(graph_path=path, source_node=source_node, destination_node=destination_node)
+        logging.info(f"Distance between {source_node} and {destination_node} is {distance}")
+        return jsonify({'distance': distance}), 200
+    else:
+        logging.error(f"File {network_file_name} does not exist")
+        return jsonify({'error': 'File does not exist'}), 404
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000), debug=True)

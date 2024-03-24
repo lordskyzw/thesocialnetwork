@@ -21,6 +21,33 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
         }
+        #distanceModal {
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+
+        #distanceModal .bg-white {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #distanceModal button {
+            display: inline-block;
+            background-color: #007aff;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #distanceModal button:hover {
+            background-color: #005ecb;
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -61,16 +88,6 @@
                     <label for="destinationNode" class="block text-sm font-medium text-gray-700">Destination Node</label>
                     <input type="text" id="destinationNode" name="destination_node" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter destination node">
                 </div>
-                <div>
-                    <label for="calculationMethod" class="block text-sm font-medium text-gray-700">Calculation Method</label>
-                    <select id="calculationMethod" name="method" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="">Select a method</option>
-                        <option value="method1">Method 1</option>
-                        <option value="method2">Method 2</option>
-                        <option value="method3">Method 3</option>
-                        <!-- Add more methods as needed -->
-                    </select>
-                </div>
                 <div class="flex justify-end">
                     <button type="submit" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Calculate
@@ -85,6 +102,17 @@
         </div>
     </div>
 </div>
+
+<div id="distanceModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 max-w-sm w-full space-y-4">
+        <h2 class="text-lg font-semibold">Distance Calculation</h2>
+        <p id="distanceInfo">Calculating...</p>
+        <p id="algorithmInfo" class="text-sm text-gray-600">Calculated using Dijkstra's algorithm.</p>
+        <p id="aiResponse" class="text-sm text-gray-600"></p>
+        <button id="closeModal" class="bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-700">Close</button>
+    </div>
+</div>
+
 
 <script>
     const tabs = document.querySelectorAll('.tab-link');
@@ -163,7 +191,7 @@
         const analysisData = analysisDataJSON ? JSON.parse(analysisDataJSON) : null;
 
         if (analysisData && analysisData.network_info) {
-            const networkInfo = analysisData.network_info;
+            var networkInfo = analysisData.network_info;
             document.getElementById('nodeCount').textContent = networkInfo.nodes;
             document.getElementById('edgeCount').textContent = networkInfo.edges;
             document.getElementById('hubNode').textContent = networkInfo.hub;
@@ -182,6 +210,39 @@
         } else {
             console.error('No analysis data found.');
         }
+        const distanceCalculatorForm = document.getElementById('distanceCalculatorForm');
+        distanceCalculatorForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(distanceCalculatorForm);
+            const sourceNode = formData.get('source_node');
+            const destinationNode = formData.get('destination_node');
+            const networkFileName = networkInfo.filename;
+            document.getElementById('distanceInfo').textContent = 'Calculating...';
+            document.getElementById('distanceModal').style.display = 'flex';
+
+            fetch('https://thesocialnetwork-production.up.railway.app/get-distance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sourceNode: sourceNode, // Ensure the keys match the backend's expected keys
+                    destinationNode: destinationNode,
+                    filename: networkFileName, // Include this only if needed
+                }),
+            })
+            .then(response => response.json()) // Convert the response to JSON
+            .then(data => {
+                document.getElementById('distanceInfo').textContent = `Distance: ${data.distance} units`;
+                document.getElementById('aiResponse').textContent = 'AI response will be shown here...';
+                console.log('Distance:', data.distance); // Handle the response data
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        // Close modal functionality
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('distanceModal').style.display = 'none';
+        });
     });
 </script>
 
