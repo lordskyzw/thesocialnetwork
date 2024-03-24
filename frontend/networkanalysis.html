@@ -211,11 +211,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         const analysisDataJSON = localStorage.getItem('analysisData');
         const analysisData = analysisDataJSON ? JSON.parse(analysisDataJSON) : null;
-        const graphImageData = localStorage.getItem('network_image');
-        if (graphImageData) {
+
+        // Check if analysisData exists and has the network_image property
+        if (analysisData && analysisData.network_info && analysisData.network_info.network_image) {
+            // Assuming network_image is a base64 encoded string within the network_info object
+            const graphImageData = analysisData.network_info.network_image;
+
+            // Set the image source using the base64 data
             document.getElementById('graphImage').src = `data:image/png;base64,${graphImageData}`;
         } else {
-            console.error('No graph image data found.');
+            console.error('No graph image data found in analysisData.');
         }
 
         if (analysisData && analysisData.network_info) {
