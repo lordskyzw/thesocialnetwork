@@ -2,3 +2,5 @@ flask
 networkx
 flask-cors
 openai
+matplotlib
+numpy
