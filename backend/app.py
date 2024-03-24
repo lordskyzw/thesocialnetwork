@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 import os
 import networkx as nx
 import logging
-from utils import get_hub, get_eigen_node, get_network_description, distance_calculator
+from utils import get_hub, get_eigen_node, get_network_description, distance_calculator, create_network_image
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -57,6 +57,7 @@ def show_analysis():
             eigen_node = get_eigen_node(nx.eigenvector_centrality(G=network))
             logging.info("calculated eigen node")
             eigen_node, _ = next(iter(eigen_node.items()))
+            network_base_64_image = create_network_image(network_path=path)
 
     
 
@@ -68,6 +69,7 @@ def show_analysis():
                 'average_clustering': clustering,
                 'eigen_node': eigen_node,
                 'filename': filename,
+                'network_image': network_base_64_image
             }
             try:
                 description= get_network_description(network_facts=info)

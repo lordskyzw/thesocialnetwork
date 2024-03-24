@@ -2,6 +2,12 @@ from openai import OpenAI
 import os
 import networkx as nx
 import logging
+import base64
+import io
+import matplotlib as plt
+import numpy as np
+import time
+
 
 client = OpenAI(
 base_url="https://openrouter.ai/api/v1",
@@ -42,4 +48,29 @@ def distance_calculator(graph_path, source_node, destination_node):
         logging.error(f"utils.py distance_calculator encountered an erro {e}")
         return e
     return int(distance)
-    
+
+def create_network_image(network_path):
+    '''this function creates a network image and returns its base64 string'''
+    try:
+        network = nx.read_edgelist(path=network_path)
+        logging.info("Calculating POS")
+        start_time = time.perf_counter()
+        pos = nx.spring_layout(network)
+        time_taken = time.perf_counter() - start_time
+        logging.info(f"Done calculating pos, time taken: {time_taken}")
+        all_node_degrees = [network.degree(v) for v in network]
+        all_node_degrees = np.array(all_node_degrees)
+        node_size = (all_node_degrees * 100).tolist()  
+        node_color = (20000.0 * all_node_degrees).tolist()
+        nx.draw(network, pos, with_labels=True, node_color=node_color, node_size=node_size)
+        img_buffer = io.BytesIO()
+        plt.savefig(img_buffer, format='png')
+        img_buffer.seek(0)
+
+        # Encode the image in memory to base64
+        img_base64 = base64.b64encode(img_buffer.read()).decode('utf-8')
+        return img_base64
+    except Exception as e:
+        logging.error(f"Error creating network image: {e}")
+        return e
+            
