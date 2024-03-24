@@ -4,7 +4,7 @@ import networkx as nx
 import logging
 import base64
 import io
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import time
 
