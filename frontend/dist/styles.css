@@ -697,7 +697,25 @@ video {
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
+/* Add this to blur the background content when the overlay is active */
+#overlay:not(.hidden) {
+  filter: blur(8px);
+}
 
+  .loader {
+    border-top-color: #368de4; /* Use your preferred spinner color */
+    animation: spinner 1s linear infinite;
+  }
+
+  @keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Ensure the loader is not affected by the blur */
+  #loadingIndicator:not(.hidden) .loader {
+    filter: none;
+  }
 
 .translucent-bg {
     background-color: rgba(255, 255, 255, 0.8);

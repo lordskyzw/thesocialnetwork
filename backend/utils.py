@@ -58,11 +58,15 @@ def create_network_image(network_path):
         pos = nx.spring_layout(network)
         time_taken = time.perf_counter() - start_time
         logging.info(f"Done calculating pos, time taken: {time_taken}")
-        all_node_degrees = [network.degree(v) for v in network]
-        all_node_degrees = np.array(all_node_degrees)
-        node_size = (all_node_degrees * 100).tolist()  
-        node_color = (20000.0 * all_node_degrees).tolist()
-        nx.draw(network, pos, with_labels=True, node_color=node_color, node_size=node_size)
+        options = {
+            "font_size": 6,
+            "node_size": 3000,
+            "node_color": "white",
+            "edgecolors": "black",
+            "linewidths":3,
+            "width": 3,
+        }
+        nx.draw(network, pos, with_labels=True, **options)
         img_buffer = io.BytesIO()
         plt.savefig(img_buffer, format='png')
         img_buffer.seek(0)

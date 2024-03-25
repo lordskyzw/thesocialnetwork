@@ -33,9 +33,14 @@
     </div>
   </div>
 
-  <div id="loadingIndicator" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24"></div>
+  <!-- Overlay to blur the background content -->
+  <div id="overlay" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 z-40"></div>
+
+  <!-- Loading spinner -->
+  <div id="loadingIndicator" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+      <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24"></div>
   </div>
+
 
 
   <script>
@@ -86,6 +91,7 @@
   // Event listener for the Show Network Analysis button
   document.getElementById('showAnalysisBtn').addEventListener('click', function() {
       document.getElementById('loadingIndicator').classList.remove('hidden');
+      document.getElementById('overlay').classList.remove('hidden'); // Show the blur overlay
       document.querySelector('.content').classList.add('blur-sm');
 
       // Use the global variable 'uploadedFilename' in the request data
@@ -107,6 +113,7 @@
       .then(data => {
           // Hide loading indicator
           document.getElementById('loadingIndicator').classList.add('hidden');
+          document.getElementById('overlay').classList.add('hidden')
           document.querySelector('.content').classList.remove('blur-sm');
 
           // Check if there is an error in the data
