@@ -28,6 +28,7 @@ def get_network_description(network_facts)-> str:
     return completion.choices[0].message.content
 
 def get_hub(network: nx.Graph):
+    '''this function accepts a network as argument and calculates the node with the max degree'''
     most_connected_node = max(network.degree, key=lambda pair: pair[1])
     return most_connected_node[0], most_connected_node[1]
 
@@ -46,7 +47,7 @@ def distance_calculator(graph_path, source_node, destination_node):
         distance = nx.shortest_path_length(G=network, source=source_node, target=destination_node)
     except Exception as e:
         logging.error(f"utils.py distance_calculator encountered an erro {e}")
-        return e
+        return "the nodes provided are not connected"
     return int(distance)
 
 def create_network_image(network_path):
@@ -60,7 +61,7 @@ def create_network_image(network_path):
         logging.info(f"Done calculating pos, time taken: {time_taken}")
         options = {
             "font_size": 6,
-            "node_size": 3000,
+            "node_size": 300,
             "node_color": "white",
             "edgecolors": "black",
             "linewidths":3,
