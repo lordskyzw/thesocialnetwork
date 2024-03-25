@@ -267,7 +267,7 @@
             .then(response => response.json()) // Convert the response to JSON
             .then(data => {
                 document.getElementById('distanceInfo').textContent = `Distance: ${data.distance} units`;
-                document.getElementById('aiResponse').textContent = 'AI response will be shown here...';
+                //document.getElementById('aiResponse').textContent = 'AI response will be shown here...';
                 console.log('Distance:', data.distance); // Handle the response data
             })
             .catch(error => console.error('Error:', error));

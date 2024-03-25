@@ -698,9 +698,9 @@ video {
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 /* Add this to blur the background content when the overlay is active */
-#overlay:not(.hidden) {
-  filter: blur(8px);
-}
+  #overlay:not(.hidden) {
+    filter: blur(8px);
+  }
 
   .loader {
     border-top-color: #368de4; /* Use your preferred spinner color */
